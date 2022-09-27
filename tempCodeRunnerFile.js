@@ -1,1 +1,0 @@
-arr=arr[0].split("https");
