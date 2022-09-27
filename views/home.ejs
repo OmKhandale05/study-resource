@@ -6,9 +6,9 @@
             <% for(let i=0; i<books.length;i++){ %>
                 <div class="resource-item">
 
-                    <a href=<%="/posts/" + books[i].linkUrl %> target="_blank">
-                        <img src=<%= books[i].imageSrc %> alt=""><br>
-                        <%= books[i].bookTitle %>
+                    <a href=<%="/posts/" + books[i].book_route %> target="_blank">
+                        <img src=<%= books[i].book_image_src %> alt=""><br>
+                        <%= books[i].book_title %>
                     </a>
 
                     <!-- <a href="pages/daa.html" target="_blank"> <img src="images/daa.jpg" alt=""><br> Design & Analysis of

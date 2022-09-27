@@ -8,6 +8,9 @@ const fs = require("fs")
 const fileupload = require("express-fileupload");
 const loadsh = require("lodash")
 
+// For database connection
+const { Client } = require("pg");
+
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -22,23 +25,44 @@ app.use(fileupload());
   -------------------------------------------*/
 books = []
 
+// DB credentials
+const client = new Client({
+    host: "tiny.db.elephantsql.com",
+    user: "ygxvpnte",
+    port: "5432",
+    password: "Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ",
+    database: "ygxvpnte",
+    idleTimeoutMillis: 0,
+    connectionTimeoutMillis: 0
+});
 
-/*-------------------------------------------
-                Upload method
-  -------------------------------------------*/
+client.connect();
 
 
 /*-------------------------------------------
                 Home route
   -------------------------------------------*/
 app.get("/", function (req, res) {
-    res.render("home", { books: books });
+    client.query("Select * from BookData").then((results) => {
+        // console.log(res.rows[0].imagetitle);
+        res.render("home", { books: results.rows });
+        // client.end();
+    });
 });
+
+
+/*-------------------------------------------
+                Add Book Route
+  -------------------------------------------*/
 
 app.get("/add", function (req, res) {
     res.render("add");
 });
 
+
+/*-------------------------------------------
+                Upload Route
+  -------------------------------------------*/
 
 app.post("/upload", function (req, res) {
     if (!req.files) {
@@ -65,11 +89,14 @@ app.post("/upload", function (req, res) {
 });
 
 
+/*-------------------------------------------
+                Display Book Route
+  -------------------------------------------*/
 
 app.get("/posts/:postId", function (req, res) {
     let bookTitle = loadsh.lowerCase(req.params.postId);
-    for(let i=0; i< books.length; i++){
-        if(bookTitle===books[i].linkUrl){
+    for (let i = 0; i < books.length; i++) {
+        if (bookTitle === books[i].linkUrl) {
             res.render("posts", { bookData: books[i] });
         }
     }
