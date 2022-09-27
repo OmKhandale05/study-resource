@@ -18,11 +18,11 @@ client.query("Select * from BookData").then((res) => {
     client.end();
 });
 
-// client.query("Insert into test(name) values($1)",["test1"]).then(res => {
-//     console.log(res.rows[0]);
-//     // client.end();
-//     // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
-//   })
+client.query("Insert into test(name) values($1)",["test1"]).then(res => {
+    console.log(res.rows[0]);
+    // client.end();
+    // { name: 'brianc', email: 'brian.m.carlson@gmail.com' }
+  })
 
 // const res = await client.query('SELECT * from UserInfo');
 // console.log(res);

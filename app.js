@@ -23,7 +23,6 @@ app.use(fileupload());
 /*-------------------------------------------
                 Global Variables
   -------------------------------------------*/
-var books;
 
 // DB credentials
 const client = new Client({
@@ -44,11 +43,7 @@ client.connect();
   -------------------------------------------*/
 app.get("/", function (req, res) {
     client.query("Select * from BookData").then((results) => {
-        // console.log(res.rows[0].imagetitle);
-        books = results.rows;
-        // console.log(books);
         res.render("home", { books: results.rows });
-        // client.end();
     });
 });
 
@@ -56,7 +51,6 @@ app.get("/", function (req, res) {
 /*-------------------------------------------
                 Add Book Route
   -------------------------------------------*/
-
 app.get("/add", function (req, res) {
     res.render("add");
 });
@@ -65,7 +59,6 @@ app.get("/add", function (req, res) {
 /*-------------------------------------------
                 Upload Route
   -------------------------------------------*/
-
 app.post("/upload", function (req, res) {
     if (!req.files) {
         return res.status(400).send("No files Found!");
@@ -76,14 +69,16 @@ app.post("/upload", function (req, res) {
         if (err) console.log("Error!");
 
         imgur(fs.readFileSync(uploadPath)).then(data => {
-            let bookItem = {
-                bookTitle: req.body.bookTitle,
-                linkUrl: req.body.bookRoute,
-                imageSrc: data.link,
-                folderUrl: req.body.bookLink
-            }
-            console.log(bookItem);
-            books.push(bookItem);
+
+            let bookTitle = req.body.bookTitle;
+            let bookRoute = req.body.bookRoute;
+            let imageSrc = data.link;
+            let folderUrl = req.body.bookLink;
+
+            client.query("Insert into BookData(book_title, book_route, book_image_src, book_folderlink) values($1,$2,$3,$4)", [bookTitle, bookRoute, imageSrc, folderUrl]).then(data => {
+                console.log(data);
+            });
+            fs.unlinkSync(uploadPath);
             res.redirect("/");
         });
     });
@@ -94,20 +89,20 @@ app.post("/upload", function (req, res) {
 /*-------------------------------------------
                 Display Book Route
   -------------------------------------------*/
-
 app.get("/posts/:postId", function (req, res) {
-    console.log(books);
-    let bookTitle = loadsh.lowerCase(req.params.postId);
-    for (let i = 0; i < books.length; i++) {
-        if (bookTitle === books[i].book_route) {
-            res.render("posts", { bookData: books[i] });
+    client.query("Select * from BookData").then((results) => {
+        let booksData = results.rows;
+        let bookTitle = loadsh.lowerCase(req.params.postId);
+        for (let i = 0; i < booksData.length; i++) {
+            if (bookTitle === booksData[i].book_route) {
+                res.render("posts", { bookData: booksData[i] });
+            }
         }
-    }
-})
-
+    });
+});
 
 
 
 app.listen(3000, function () {
     console.log("Server is running on port 3000!");
-})
+});
