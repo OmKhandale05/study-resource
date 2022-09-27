@@ -40,16 +40,16 @@
         <section>
             <div class="resourceContainer">
                 <div class="resource-item">
-                    <a href=<%= bookData.folderUrl %>
-                        target="_blank"> <img src=<%=bookData.imageSrc %> alt=""><br>
-                        <%= bookData.bookTitle %>
+                    <a href=<%= bookData.book_folderlink %>
+                        target="_blank"> <img src=<%=bookData.book_image_src %> alt=""><br>
+                        <%= bookData.book_title %>
                     </a>
                 </div>
                 <div class="resource-item-list">
                     <ul>
                         <!-- paste here the link for drive folder -->
                         <span>
-                            <a href= <%= bookData.folderUrl %> target="_blank" >
+                            <a href= <%= bookData.book_folderlink %> target="_blank" >
                                 Click here
                             </a>
                             for Books and References

@@ -23,7 +23,7 @@ app.use(fileupload());
 /*-------------------------------------------
                 Global Variables
   -------------------------------------------*/
-books = []
+var books;
 
 // DB credentials
 const client = new Client({
@@ -45,6 +45,8 @@ client.connect();
 app.get("/", function (req, res) {
     client.query("Select * from BookData").then((results) => {
         // console.log(res.rows[0].imagetitle);
+        books = results.rows;
+        // console.log(books);
         res.render("home", { books: results.rows });
         // client.end();
     });
@@ -94,9 +96,10 @@ app.post("/upload", function (req, res) {
   -------------------------------------------*/
 
 app.get("/posts/:postId", function (req, res) {
+    console.log(books);
     let bookTitle = loadsh.lowerCase(req.params.postId);
     for (let i = 0; i < books.length; i++) {
-        if (bookTitle === books[i].linkUrl) {
+        if (bookTitle === books[i].book_route) {
             res.render("posts", { bookData: books[i] });
         }
     }
