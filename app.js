@@ -16,10 +16,33 @@ app.use(express.static("public"));
 /*-------------------------------------------
                 Global Variables
   -------------------------------------------*/
+books=[
+    {
+        bookTitle: "Design & Analysis of Algoritms",
+        imageSrc: "images/daa.jpg",
+        linkUrl: "daa"
+    },
+    {
+        bookTitle: "Design & Analysis of Algoritms",
+        imageSrc: "images/ai.jpg",
+        linkUrl: "Ai"
+    }
+]
 
+
+/*-------------------------------------------
+                Home route
+  -------------------------------------------*/
 app.get("/", function (req, res) {
-    res.render("home");
+    res.render("home", {books: books});
 });
+
+
+app.get("/posts/:postId", function (req, res) {
+    let postTitle = loadsh.lowerCase(req.params.postId);
+    res.render("posts", { title: postTitle});
+})
+
 
 
 
