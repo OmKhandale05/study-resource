@@ -22,70 +22,41 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
     </script>
 
+    <style>
+        span{
+            letter-spacing: 1.5px;
+            font-weight: bold;
+        }
+        img{
+            width: auto;
+            height: auto;
+        }
+        .col{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: absolute;
+            top: 20%;
+            left: 5%;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div id="headerID"> <!-- your header --> </div>
-    <section>
-        <div class="resourceContainer">
-            <!-- Design & Analysis of Algorithms -->
-            <div class="resource-item">
-                <a href="pages/daa.html" target="_blank"> <img src="images/daa.jpg"  alt=""><br> Design & Analysis of Algorithms
-                </a>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-fluid" src="images/moving.jpg" alt="We have moved banner">
             </div>
-            <!-- Probability and Statistics -->
-            <div class="resource-item">
-                <a href="pages/maths.html" target="_blank"> <img src="images/probability.png" alt=""><br> Probability and Statistics
-                </a>
+            <div class="col">
+                <h1>We Haved <span class="text-success">MOVED</span></h1> <br>
+                <a href="https://study-resource.herokuapp.com/" class="btn btn-warning">Click Here</a>
             </div>
-            <!-- Compiler Design -->
-            <div class="resource-item">
-                <a href="pages/cd.html" target="_blank"> <img src="images/cd.jpg" alt=""><br> Compiler Design
-                </a>
-            </div>
-            <!-- Artificial Intelligence -->
-            <div class="resource-item">
-                <a href="pages/ai.html" target="_blank"> <img src="images/ai.jpg" alt=""><br> Artificial Intelligence
-                </a>
-            </div>
-            <!-- Internet of Things -->
-            <div class="resource-item">
-                <a href="pages/iot.html" target="_blank"> <img src="images/iot.jpg" alt=""><br> Internet of Things
-                </a>
-            </div>
-            <!-- Computer Networks -->
-            <div class="resource-item">
-                <a href="pages/cn.html" target="_blank"> <img src="images/cn.jpg" alt=""><br> Computer Networks
-                </a>
-            </div>
-            <!-- Basic Human Rights -->
-            <div class="resource-item">
-                <a href="https://drive.google.com/drive/folders/1qKQMhVcJ0IcMfgFt6fPR0h3E037-wLfs?usp=sharing" target="_blank"> <img src="images/bhr.jpg" alt=""><br> Basic Human Rights
-                </a>
-            </div>
-            <!-- Operating Systems -->
-            <div class="resource-item">
-                <a href="pages/os.html" target="_blank"><img src="images/os.jpg" alt=""><br> Operating Systems
-                </a>
-            </div>
-            <!-- Digital Electronics -->
-            <div class="resource-item">
-                <a href="pages/dldm.html" target="_blank"> <img src="images/dldm.jpg" alt=""><br> Digital Electronics & Microprocessors
-                </a>
-            </div>
-            
         </div>
-    </section>
-    
-    <div id="footerID"> <!-- your header --> </div>
-
-    <script>
-        $("#headerID").load("pages/header.html");
-        $("#footerID").load("pages/footer.html");
-      </script>
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    </div>
 
     <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="lovelysingF" data-description="Support me on Buy me a coffee!" data-message="" data-color="#ff813f" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
