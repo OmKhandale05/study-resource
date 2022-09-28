@@ -25,6 +25,7 @@ app.use(fileupload());
                 Global Variables
   -------------------------------------------*/
 
+  console.log(process.env.ADMIN_HOST);
 const client = new Client({
     host: process.env.ADMIN_HOST,
     user: process.env.ADMIN_USER,
