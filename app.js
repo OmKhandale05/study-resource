@@ -7,6 +7,7 @@ const imgur = require('imgur-uploader');
 const fs = require("fs")
 const fileupload = require("express-fileupload");
 const loadsh = require("lodash")
+const session = require('express-session');
 require("dotenv").config();
 
 // For database connection
@@ -19,7 +20,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileupload());
-
+app.use(session({ secret: 'mysecret' }));
 
 /*-------------------------------------------
                 Global Variables
@@ -54,8 +55,31 @@ app.get("/", function (req, res) {
   -------------------------------------------*/
 //   This route renders the admin panel for adding new books
 app.get("/add", function (req, res) {
-    res.render("add");
+    sess = req.session;
+    if (sess.isLoggedin) {
+        res.render("add");
+    } else {
+        res.render('admin');
+    }
 });
+
+
+app.post("/admin", function (req, res) {
+    sess = req.session;
+    let username = req.body.username;
+    let adminpass = req.body.adminPassword;
+    client.query("Select * from AdminInfo where username = $1 and login_password= $2", [username, adminpass]).then((results) => {
+        if (results.rowCount == 1) {
+            sess.isLoggedin=results.rows[0].username;
+            console.log(sess.isLoggedin);
+            res.render("add");
+        } else {
+            res.render('admin');
+        }
+    });
+});
+
+
 
 
 /*-------------------------------------------
@@ -68,7 +92,7 @@ app.post("/upload", function (req, res) {
     }
     // if file exists store it in myfile variable
     let myfile = req.files.thumbnail;
-    
+
     let uploadPath = __dirname + "/uploads/" + myfile.name;
     // move the file to uploads folder for temp storage
     myfile.mv(uploadPath, function (err) {
@@ -89,7 +113,7 @@ app.post("/upload", function (req, res) {
             });
             // removing the file from our temporary uploads folder
             fs.unlinkSync(uploadPath);
-            
+
             // redirect admin to the home after inserting and display new updated book
             res.redirect("/");
         });

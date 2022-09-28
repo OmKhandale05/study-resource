@@ -25,6 +25,7 @@
     "epxress": "^0.0.1-security",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
     "imgur-uploader": "^4.2.1",
     "lodash": "^4.17.21",
     "pg": "^8.8.0"

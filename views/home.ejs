@@ -2,66 +2,14 @@
 
     <section>
         <div class="resourceContainer">
-            <!-- Design & Analysis of Algorithms -->
             <% for(let i=0; i<books.length;i++){ %>
                 <div class="resource-item">
-
                     <a href=<%="/posts/" + books[i].book_route %> target="_blank">
-                        <img src=<%= books[i].book_image_src %> alt=""><br>
+                        <img src=<%=books[i].book_image_src %> alt=""><br>
                         <%= books[i].book_title %>
                     </a>
-
-                    <!-- <a href="pages/daa.html" target="_blank"> <img src="images/daa.jpg" alt=""><br> Design & Analysis of
-                    Algorithms
-                </a> -->
                 </div>
-                <% } %>
-
-
-                    <!-- Probability and Statistics -->
-                    <!-- <div class="resource-item">
-                <a href="pages/maths.html" target="_blank"> <img src="images/probability.png" alt=""><br> Probability
-                    and Statistics
-                </a>
-            </div> -->
-                    <!-- Compiler Design -->
-                    <!-- <div class="resource-item">
-                <a href="pages/cd.html" target="_blank"> <img src="images/cd.jpg" alt=""><br> Compiler Design
-                </a>
-            </div> -->
-                    <!-- Artificial Intelligence -->
-                    <!-- <div class="resource-item">
-                <a href="pages/ai.html" target="_blank"> <img src="images/ai.jpg" alt=""><br> Artificial Intelligence
-                </a>
-            </div> -->
-                    <!-- Internet of Things -->
-                    <!-- <div class="resource-item">
-                <a href="pages/iot.html" target="_blank"> <img src="images/iot.jpg" alt=""><br> Internet of Things
-                </a>
-            </div> -->
-                    <!-- Computer Networks -->
-                    <!-- <div class="resource-item">
-                <a href="pages/cn.html" target="_blank"> <img src="images/cn.jpg" alt=""><br> Computer Networks
-                </a>
-            </div> -->
-                    <!-- Basic Human Rights -->
-                    <!-- <div class="resource-item">
-                <a href="https://drive.google.com/drive/folders/1qKQMhVcJ0IcMfgFt6fPR0h3E037-wLfs?usp=sharing"
-                    target="_blank"> <img src="images/bhr.jpg" alt=""><br> Basic Human Rights
-                </a>
-            </div> -->
-                    <!-- Operating Systems -->
-                    <!-- <div class="resource-item">
-                <a href="pages/os.html" target="_blank"><img src="images/os.jpg" alt=""><br> Operating Systems
-                </a>
-            </div> -->
-                    <!-- Digital Electronics -->
-                    <!-- <div class="resource-item">
-                <a href="pages/dldm.html" target="_blank"> <img src="images/dldm.jpg" alt=""><br> Digital Electronics &
-                    Microprocessors
-                </a>
-            </div> -->
-
+            <% } %>
         </div>
     </section>
 
