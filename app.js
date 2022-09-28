@@ -26,25 +26,25 @@ app.use(fileupload());
   -------------------------------------------*/
 
   console.log(process.env.ADMIN_HOST);
-// const client = new Client({
-//     host: process.env.ADMIN_HOST,
-//     user: process.env.ADMIN_USER,
-//     port: process.env.ADMIN_PORT,
-//     password: process.env.ADMIN_PASSWORD,
-//     database: process.env.ADMIN_DATABASE,
-//     idleTimeoutMillis: 0,
-//     connectionTimeoutMillis: 0
-// });
-
 const client = new Client({
-    host: "tiny.db.elephantsql.com",
-    user: "ygxvpnte",
-    port: "5432",
-    password: "Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ",
-    database: "ygxvpnte",
+    host: process.env.ADMIN_HOST,
+    user: process.env.ADMIN_USER,
+    port: process.env.ADMIN_PORT,
+    password: process.env.ADMIN_PASSWORD,
+    database: process.env.ADMIN_DATABASE,
     idleTimeoutMillis: 0,
     connectionTimeoutMillis: 0
 });
+
+// const client = new Client({
+//     host: "tiny.db.elephantsql.com",
+//     user: "ygxvpnte",
+//     port: "5432",
+//     password: "Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ",
+//     database: "ygxvpnte",
+//     idleTimeoutMillis: 0,
+//     connectionTimeoutMillis: 0
+// });
 client.connect();
 
 
