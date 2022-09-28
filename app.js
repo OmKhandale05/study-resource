@@ -42,7 +42,7 @@ client.connect();
                 Home route
   -------------------------------------------*/
 app.get("/", function (req, res) {
-    client.query("Select * from BookData").then((results) => {
+    client.query("Select * from BookData order by book_title").then((results) => {
         res.render("home", { books: results.rows });
     });
 });
