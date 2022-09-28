@@ -7,6 +7,7 @@ const imgur = require('imgur-uploader');
 const fs = require("fs")
 const fileupload = require("express-fileupload");
 const loadsh = require("lodash")
+require("dotenv").config();
 
 // For database connection
 const { Client } = require("pg");
@@ -24,17 +25,25 @@ app.use(fileupload());
                 Global Variables
   -------------------------------------------*/
 
-// DB credentials
 const client = new Client({
-    host: "tiny.db.elephantsql.com",
-    user: "ygxvpnte",
-    port: "5432",
-    password: "Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ",
-    database: "ygxvpnte",
+    host: process.env.ADMIN_HOST,
+    user: process.env.ADMIN_USER,
+    port: process.env.ADMIN_PORT,
+    password: process.env.ADMIN_PASSWORD,
+    database: process.env.ADMIN_DATABASE,
     idleTimeoutMillis: 0,
     connectionTimeoutMillis: 0
 });
 
+// const client = new Client({
+//     host: "tiny.db.elephantsql.com",
+//     user: "ygxvpnte",
+//     port: "5432",
+//     password: "Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ",
+//     database: "ygxvpnte",
+//     idleTimeoutMillis: 0,
+//     connectionTimeoutMillis: 0
+// });
 client.connect();
 
 
@@ -103,6 +112,6 @@ app.get("/posts/:postId", function (req, res) {
 
 
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.port || 3000, function () {
     console.log("Server is running on port 3000!");
 });

@@ -9,6 +9,11 @@ const client = new Client({
     connectionTimeoutMillis: 0
 });
 
+// ADMIN_HOST = tiny.db.elephantsql.com
+// ADMIN_USER = ygxvpnte
+// ADMIN_PORT= 5432
+// ADMIN_PASSWORD = Z76TPbkGhluY1P4yj_ZuERcNC3HuiMcQ
+// ADMIN_DATABASE = ygxvpnte
 client.connect();
 console.log("Connected!");
 
