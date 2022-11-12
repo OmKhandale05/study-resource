@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/CoderLovely08/study-resource-website#readme",
   "dependencies": {
+    "async": "^3.2.4",
     "body-parser": "^1.20.0",
     "dotenv": "^16.0.2",
     "ejs": "^3.1.8",
@@ -28,6 +29,7 @@
     "express-session": "^1.17.3",
     "imgur-uploader": "^4.2.1",
     "lodash": "^4.17.21",
+    "mysql": "^2.18.1",
     "pg": "^8.8.0"
   }
 }

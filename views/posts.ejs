@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    
+
     <div class="container">
 
         <header>
@@ -28,9 +28,9 @@
             <a class="drive-button"
                 href="https://drive.google.com/drive/folders/1qCeBUHSXqH5xWX0kh2UbXI1ymlj6Qut_?usp=sharing"
                 target="_blank"><span> Get G-Drive Access</span></a>
-    
+
             <!-- New Realease Section -->
-    
+
             <!-- <marquee behavior="scroll" direction="">
                 <font style="color: red; font-weight: bold;">NEW</font><a href="https://drive.google.com/drive/folders/1tQxNuNGMwlAudmql8o666xiiNr28uCjy?usp=sharing" target="_blank"> DLDM Nirali Prakashan </a>
             </marquee> -->
@@ -40,7 +40,7 @@
         <section>
             <div class="resourceContainer">
                 <div class="resource-item">
-                    <a href=<%= bookData.book_folderlink %>
+                    <a href=<%=bookData.book_folderlink %>
                         target="_blank"> <img src=<%=bookData.book_image_src %> alt=""><br>
                         <%= bookData.book_title %>
                     </a>
@@ -49,18 +49,37 @@
                     <ul>
                         <!-- paste here the link for drive folder -->
                         <span>
-                            <a href= <%= bookData.book_folderlink %> target="_blank" >
+                            <a href=<%=bookData.book_folderlink %> target="_blank" >
                                 Click here
                             </a>
                             for Books and References
                         </span>
                     </ul>
                     <br>
-                    <ul>
+                    <!-- <ul>
+                    
                         <span>Youtube Learning Resources</span>
                         <li>If there exists any good resources, kindly let us know we will update them here</li>
+                    </ul> -->
+
+                    <!-- Reference links -->
+                    <ul>
+                        <span>Youtube Learning Resources</span>
+                        <% if(bookReferences.length!=0){ %>
+                            <% for(let i=0; i<bookReferences.length;i++){ %>
+                                <li><a href=<%=bookReferences[i].book_reference_link %>><%=
+                                            bookReferences[i].book_reference_name %></a>
+                                    <i class="fa fa-youtube-play" style="color:red" aria-hidden="true">
+                                    </i>
+                                </li>
+                            <% } %>
+                        <% }else { %>
+                        <!-- <% %> -->
+                            <li>If there exists any good resources, kindly let us know we will update them here</li>
+                        <% } %>
                     </ul>
                 </div>
+
             </div>
 
         </section>
