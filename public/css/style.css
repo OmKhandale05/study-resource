@@ -54,7 +54,7 @@ font{
   margin-left: 25px;
 }
 .drive-button {
-  display: inline;
+  display: inline-block;
   background-color: #001100;
   color: #ffffff;
   padding: 12px 5%;
@@ -205,7 +205,7 @@ ul {
   }
 
   .drive-button {
-    display: inline;
+    display: inline-block;
     background-color: #001100;
     color: #ffffff;
     padding: 12px 5%;
@@ -213,7 +213,7 @@ ul {
     border-radius: 6px;
     font-weight: bold;
     letter-spacing: 1.5px;
-    margin: 24px 48px;
+    margin: 8px ;
     text-decoration: none;
   }
 

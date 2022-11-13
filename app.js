@@ -28,7 +28,7 @@ client.connect(function (err) {
 });
 
 // const { Client } = require("pg");
-
+const oneDay = 1000 * 60 * 60 * 24;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -36,7 +36,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileupload());
-app.use(session({ secret: 'mysecret' }));
+app.use(session({ 
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+ }));
 
 /*-------------------------------------------
                 Global Variables
@@ -87,10 +92,8 @@ app.post("/admin", function (req, res) {
     let adminpass = req.body.adminPassword;
     let query = `Select * from AdminInfo where username = '${username}' and login_password= '${adminpass}'`;
     client.query(query, (err, results) => {
-        console.log(results);
         if (results.length == 1) {
             sess.isLoggedin = results[0].username;
-            // console.log(sess.isLoggedin);
             res.render("add");
         } else {
             res.render('admin');

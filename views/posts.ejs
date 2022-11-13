@@ -67,7 +67,7 @@
                         <span>Youtube Learning Resources</span>
                         <% if(bookReferences.length!=0){ %>
                             <% for(let i=0; i<bookReferences.length;i++){ %>
-                                <li><a href=<%=bookReferences[i].book_reference_link %>><%=
+                                <li><a target="_blank" href=<%=bookReferences[i].book_reference_link %>><%=
                                             bookReferences[i].book_reference_name %></a>
                                     <i class="fa fa-youtube-play" style="color:red" aria-hidden="true">
                                     </i>
