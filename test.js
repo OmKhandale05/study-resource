@@ -17,12 +17,13 @@ client.connect(function (err) {
 
 let bookRoute = "operatings"
 // Edit your query here
-let selectQuery = `select * from BookData`;
+let selectQuery = `select * from BookReferences`;
 let query = "alter table BookData AUTO_INCREMENT=7"
-let deleteQ = "delete from BookData where book_id = 7"
+let deleteQ = "delete from BookReferences where reference_id >=19"
 let insertQ = "insert into BookReferences(book_id,book_reference_name,book_reference_link) values(8,'Gate Smashers','https://www.youtube.com/playlist?list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_'),(8,'Neso Academy','https://www.youtube.com/playlist?list=PLBlnK6fEyqRgMCUAG0XRw78UA8qnv6jEx')";
+let updateQ= "update BookData set admin_id=2"
 
-client.query(selectQuery, (err, result) => {
+client.query(updateQ, (err, result) => {
     if (err) console.log(err);
     else console.log(result);
 });

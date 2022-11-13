@@ -44,22 +44,6 @@ app.use(session({
     withCredential : true
 }));
 
-/*-------------------------------------------
-                Global Variables
-  -------------------------------------------*/
-
-// const client = new Client({
-//     host: process.env.ADMIN_HOST,
-//     user: process.env.ADMIN_USER,
-//     port: process.env.ADMIN_PORT,
-//     password: process.env.ADMIN_PASSWORD,
-//     database: process.env.ADMIN_DATABASE,
-//     idleTimeoutMillis: 0,
-//     connectionTimeoutMillis: 0
-// });
-
-// client.connect();
-
 
 /*-------------------------------------------
                 Home route
@@ -68,7 +52,6 @@ app.get("/", function (req, res) {
     // Querying all records to display all books
 
     client.query("Select * from BookData order by book_title", (err, results) => {
-        console.log(results);
         res.render("home", { books: results });
     });
 });
