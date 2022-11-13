@@ -42,7 +42,7 @@ app.use(session({
     resave: false,
 }));
 
-let myvar=0;
+let myvar = 0;
 
 /*-------------------------------------------
                 Home route
@@ -78,7 +78,7 @@ app.post("/admin", function (req, res) {
         if (results.length == 1) {
             req.session.isLoggedin = results[0].admin_name;
             req.session.adminId = results[0].admin_id;
-            myvar=req.session.adminId;
+            myvar = req.session.adminId;
             res.render("add");
         } else {
             res.render('admin');
@@ -185,21 +185,21 @@ app.post("/upload", function (req, res) {
 app.get("/posts/:postId", function (req, res) {
     // perform linear search for the route 
     // if found just render that page only
-    let sqlQuery = "Select BookData.book_id,BookData.book_title,BookData.book_route,BookData.book_image_src,BookData.book_folderlink,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id";
+    let bookTitle = loadsh.lowerCase(req.params.postId);
+    let sqlQuery = `Select BookData.book_id,BookData.book_title,BookData.book_route,BookData.book_image_src,BookData.book_folderlink,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id and BookData.book_route='${bookTitle}'`;
 
     client.query(sqlQuery, (err, results) => {
-        let booksData = results;
-        let bookTitle = loadsh.lowerCase(req.params.postId);
-        for (let i = 0; i < booksData.length; i++) {
-            if (bookTitle === booksData[i].book_route) {
-                client.query(`Select * from BookReferences where book_id = ${booksData[i].book_id}`, (err, refResult) => {
-                    // console.log(refResult);
-                    res.render("posts", { bookData: booksData[i], bookReferences: refResult });
-                });
-                break;
-            }
-        }
+        client.query(`Select * from BookReferences where book_id = ${results[0].book_id}`, (err, refResult) => {
+            res.render("posts", { bookData: results[0], bookReferences: refResult });
+        });
     });
+});
+
+// To handle invalid routes
+app.use(function (req, res) {
+    // Invalid request
+    res.render("error");
+
 });
 
 // Starting the app
