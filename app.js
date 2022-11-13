@@ -24,6 +24,7 @@ var client = mysql.createConnection({
 
 client.connect(function (err) {
     if (err) throw err;
+    console.log("Connected!");
 });
 
 // const { Client } = require("pg");
@@ -66,6 +67,7 @@ app.get("/", function (req, res) {
     // Querying all records to display all books
 
     client.query("Select * from BookData order by book_title", (err, results) => {
+        console.log(results);
         res.render("home", { books: results });
     });
 });
@@ -138,9 +140,8 @@ app.post("/upload", function (req, res) {
                         if (results.length != 0) {
                             callback(true);
                         }
-                        callback();
+                        else callback();
                     });
-                    // console.log("Func1");
                 },
                 function (callback) {
                     // console.log("Now in func 2");
@@ -148,21 +149,18 @@ app.post("/upload", function (req, res) {
                     let query = `Insert into BookData(book_title, book_route, book_image_src, book_folderlink) values('${bookTitle}','${bookRoute}','${imageSrc}','${folderUrl}')`;
 
                     client.query(query, (err, result) => {
-                        // if (err) console.log(err);
-                        // else console.log(result);
                         callback();
                     });
-                    // console.log("Func2");
                 },
                 function (callback) {
                     // Inserting references if any by selecting the latest id
                     if (references.trim().length != 0) {
+                        console.log("inside references");
                         query = "Select * from BookData order by book_id desc Limit 1";
                         let latestBookId;
                         client.query(query, (err, result) => {
-                            // console.log("Latest bookid: " + result[0].book_id);
+
                             latestBookId = result[0].book_id;
-                            // console.log(latestBookId);
 
                             // If admin has provided any reference then insert them all
                             if (references.length != 0 && latestBookId != -1) {
@@ -177,21 +175,18 @@ app.post("/upload", function (req, res) {
                                     insertQuery = insertQuery + `(${latestBookId},'${refName}','${refLink}')`
                                     if (i != newItem.length - 1) insertQuery += ","
                                 }
-                                // console.log(insertQuery);
                                 client.query(insertQuery, (err, result) => {
-                                    // if (err) console.log(err);
-                                    // else console.log(result);
+                                    if (err) console.log(err);
                                 });
                             }
                             callback();
                         });
                     }
-                    // console.log("Func3");
                 }
 
             ],
                 function (err, result) {
-                    if (err) res.render("error");
+                    if (err) { res.render("error"); }
                     // redirect admin to the home after inserting and display new updated book
                     if (result) res.redirect("/");
                 });

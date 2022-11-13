@@ -15,12 +15,14 @@ client.connect(function (err) {
     console.log("Connected!");
 });
 
-
+let bookRoute = "operatings"
 // Edit your query here
-let selectQuery = "Select BookData.book_title,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id";
-let query = "Update BookData set admin_id =2 where book_id>=5"
+let selectQuery = `select * from BookReferences`;
+let query = "alter table BookData AUTO_INCREMENT=7"
+let deleteQ = "delete from BookData where book_id = 7"
+let insertQ = "insert into BookReferences(book_id,book_reference_name,book_reference_link) values(8,'Gate Smashers','https://www.youtube.com/playlist?list=PLxCzCOWd7aiGFBD2-2joCpWOLUrDLvVV_'),(8,'Neso Academy','https://www.youtube.com/playlist?list=PLBlnK6fEyqRgMCUAG0XRw78UA8qnv6jEx')";
 
-client.query(selectQuery, (err, result) => {
+client.query(insertQ, (err, result) => {
     if (err) console.log(err);
     else console.log(result);
 });
