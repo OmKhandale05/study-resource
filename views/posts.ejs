@@ -39,6 +39,7 @@
 
         <section>
             <div class="resourceContainer">
+                
                 <div class="resource-item">
                     <a href=<%=bookData.book_folderlink %>
                         target="_blank"> <img src=<%=bookData.book_image_src %> alt=""><br>
@@ -81,7 +82,9 @@
                 </div>
 
             </div>
-
+            <div>
+                <span>Uploaded By: <%= bookData.admin_name %></span>
+            </div>
         </section>
     </div>
 

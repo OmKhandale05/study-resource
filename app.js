@@ -36,12 +36,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(fileupload());
-app.use(session({ 
+app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
+    saveUninitialized: true,
     cookie: { maxAge: oneDay },
     resave: false
- }));
+}));
 
 /*-------------------------------------------
                 Global Variables
@@ -194,7 +194,7 @@ app.post("/upload", function (req, res) {
                 function (err, result) {
                     if (err) res.render("error");
                     // redirect admin to the home after inserting and display new updated book
-                    if(result) res.redirect("/");
+                    if (result) res.redirect("/");
                 });
 
             // removing the file from our temporary uploads folder
@@ -211,8 +211,11 @@ app.post("/upload", function (req, res) {
 app.get("/posts/:postId", function (req, res) {
     // perform linear search for the route 
     // if found just render that page only
-    client.query("Select * from BookData", (err, results) => {
+    let sqlQuery = "Select BookData.book_id,BookData.book_title,BookData.book_route,BookData.book_image_src,BookData.book_folderlink,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id";
+
+    client.query(sqlQuery, (err, results) => {
         let booksData = results;
+        // console.log(booksData);
         let bookTitle = loadsh.lowerCase(req.params.postId);
         for (let i = 0; i < booksData.length; i++) {
             if (bookTitle === booksData[i].book_route) {
