@@ -28,7 +28,7 @@ client.connect(function (err) {
 });
 
 // const { Client } = require("pg");
-const oneDay = 1000 * 60 * 60 * 24;
+const oneDay = 1000 * 60 * 60;
 const app = express();
 
 app.set('view engine', 'ejs');
