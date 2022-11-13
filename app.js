@@ -24,7 +24,6 @@ var client = mysql.createConnection({
 
 client.connect(function (err) {
     if (err) throw err;
-    // console.log("Connected!");
 });
 
 // const { Client } = require("pg");
@@ -215,7 +214,7 @@ app.get("/posts/:postId", function (req, res) {
 
     client.query(sqlQuery, (err, results) => {
         let booksData = results;
-        // console.log(booksData);
+        console.log(booksData);
         let bookTitle = loadsh.lowerCase(req.params.postId);
         for (let i = 0; i < booksData.length; i++) {
             if (bookTitle === booksData[i].book_route) {
@@ -228,7 +227,7 @@ app.get("/posts/:postId", function (req, res) {
         }
     });
 });
-// client.end();
+
 // Starting the app
 app.listen(process.env.PORT || 3000, function () {
     console.log("Server is running on port 3000!");
