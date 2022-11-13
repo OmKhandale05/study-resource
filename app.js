@@ -28,7 +28,7 @@ client.connect(function (err) {
 });
 
 // const { Client } = require("pg");
-const oneDay = 1000 * 60 * 60;
+const oneDay = 1000 * 60 * 60 * 24;
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -40,7 +40,8 @@ app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized: true,
     cookie: { maxAge: oneDay },
-    resave: false
+    resave: true,
+    withCredential : true
 }));
 
 /*-------------------------------------------
@@ -94,7 +95,8 @@ app.post("/admin", function (req, res) {
     let query = `Select * from AdminInfo where username = '${username}' and login_password= '${adminpass}'`;
     client.query(query, (err, results) => {
         if (results.length == 1) {
-            sess.isLoggedin = results[0].username;
+            req.session.isLoggedin = results[0].username;
+            req.session.adminId = results[0].admin_id;
             res.render("add");
         } else {
             res.render('admin');
@@ -144,7 +146,6 @@ app.post("/upload", function (req, res) {
                     });
                 },
                 function (callback) {
-                    // console.log("Now in func 2");
                     // inserting the data into our book database
                     let query = `Insert into BookData(book_title, book_route, book_image_src, book_folderlink) values('${bookTitle}','${bookRoute}','${imageSrc}','${folderUrl}')`;
 
@@ -209,7 +210,6 @@ app.get("/posts/:postId", function (req, res) {
 
     client.query(sqlQuery, (err, results) => {
         let booksData = results;
-        console.log(booksData);
         let bookTitle = loadsh.lowerCase(req.params.postId);
         for (let i = 0; i < booksData.length; i++) {
             if (bookTitle === booksData[i].book_route) {
