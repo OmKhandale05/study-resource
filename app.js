@@ -27,7 +27,6 @@ client.connect(function (err) {
     console.log("Connected!");
 });
 
-// const { Client } = require("pg");
 const oneDay = 1000 * 60 * 60 * 24;
 const app = express();
 
@@ -40,17 +39,16 @@ app.use(session({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized: true,
     cookie: { maxAge: oneDay },
-    resave: true,
-    withCredential : true
+    resave: false,
 }));
 
+let myvar=0;
 
 /*-------------------------------------------
                 Home route
   -------------------------------------------*/
-app.get("/", function (req, res) {
+app.get("/", function (req, res, next) {
     // Querying all records to display all books
-
     client.query("Select * from BookData order by book_title", (err, results) => {
         res.render("home", { books: results });
     });
@@ -78,8 +76,9 @@ app.post("/admin", function (req, res) {
     let query = `Select * from AdminInfo where username = '${username}' and login_password= '${adminpass}'`;
     client.query(query, (err, results) => {
         if (results.length == 1) {
-            req.session.isLoggedin = results[0].username;
+            req.session.isLoggedin = results[0].admin_name;
             req.session.adminId = results[0].admin_id;
+            myvar=req.session.adminId;
             res.render("add");
         } else {
             res.render('admin');
@@ -109,7 +108,6 @@ app.post("/upload", function (req, res) {
         // upload the moved file to imgur and recieve a callback
         imgur(fs.readFileSync(uploadPath)).then(data => {
 
-
             // set the attributes based on the response we get
             let bookTitle = req.body.bookTitle;
             let bookRoute = req.body.bookRoute.trim();
@@ -130,7 +128,7 @@ app.post("/upload", function (req, res) {
                 },
                 function (callback) {
                     // inserting the data into our book database
-                    let query = `Insert into BookData(book_title, book_route, book_image_src, book_folderlink) values('${bookTitle}','${bookRoute}','${imageSrc}','${folderUrl}')`;
+                    let query = `Insert into BookData(book_title, book_route, book_image_src, book_folderlink, admin_id) values('${bookTitle}','${bookRoute}','${imageSrc}','${folderUrl}', ${myvar})`;
 
                     client.query(query, (err, result) => {
                         callback();
@@ -139,7 +137,6 @@ app.post("/upload", function (req, res) {
                 function (callback) {
                     // Inserting references if any by selecting the latest id
                     if (references.trim().length != 0) {
-                        console.log("inside references");
                         query = "Select * from BookData order by book_id desc Limit 1";
                         let latestBookId;
                         client.query(query, (err, result) => {
@@ -167,7 +164,6 @@ app.post("/upload", function (req, res) {
                         });
                     }
                 }
-
             ],
                 function (err, result) {
                     if (err) { res.render("error"); }
