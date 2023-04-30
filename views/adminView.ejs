@@ -1,0 +1,126 @@
+<%- include("partials/header") -%>
+
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="add-book-form" action="/upload" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="">Title</label>
+                                <input type="text" class="form-control" name="bookTitle" id="bookTitle"
+                                    aria-describedby="helpId" required placeholder="Enter Book Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Link</label>
+                                <input type="text" class="form-control" name="bookLink" id="Link"
+                                    aria-describedby="helpId" required placeholder="Enter Drive Folder Link">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Route</label>
+                                <input type="text" class="form-control" name="bookRoute" id="route"
+                                    aria-describedby="helpId" required
+                                    placeholder="Enter book route(unique and without any spaces)">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Thumbnail</label>
+                                <input type="file" class="form-control" name="thumbnail" id="thumbnail"
+                                    aria-describedby="helpId" required placeholder="Select Image Thumbnail">
+                            </div>
+                            <div class="form-group">
+                                <label for="">References</label>
+                                <textarea class="form-control" name="bookReferences" id="bookReferences" rows="7"
+                                    placeholder="Typing Format: Title &lt;space&gt; Link, Title &lt;space&gt; Link etc.. Note: comma(,) is necessary for each new item at the end Ex: Abdul Bari https://www.youtube.com/playlist?list=PLxCzCOWd7aiFM9Lj5G9G_76adtyb4ef7i, Gate Smashers https://www.youtube.com/playlist?list=PLxCzCOWd7aiFM9Lj5G9G_76adtyb4ef7i"></textarea>
+                            </div>
+                            <button id="submit" class="btn btn-lg btn-primary">Publish</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="updateBookModal" tabindex="-1" role="dialog" aria-labelledby="updateBookModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateBookModalLabel">Update Book</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                            <div class="form-group">
+                                <label for="">Title</label>
+                                <input type="text" class="form-control" name="bookTitle" id="newBookTitle"
+                                    aria-describedby="helpId" required placeholder="Enter Book Title">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Link</label>
+                                <input type="text" class="form-control" name="bookLink" id="newLink"
+                                    aria-describedby="helpId" required placeholder="Enter Drive Folder Link">
+                            </div>
+                            <button id="update-book" class="btn btn-lg btn-primary">Update</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="post-table">
+                            <th>Book Id</th>
+                            <th>Book Title</th>
+                            <th>Book Image</th>
+                            <th>Action <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#addBookModal">
+                                    Add Book
+                                </button></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i=0; i<bookDetails.length; i++){ %>
+                            <tr>
+                                <td>
+                                    <%= bookDetails[i].book_id %>
+                                </td>
+                                <td>
+                                    <%= bookDetails[i].book_title %>
+                                </td>
+                                <td style="width: 50px; height: 70px;">
+                                    <img class="bookItem" width="50px" height="70px"
+                                        src=<%=bookDetails[i].book_image_src %> alt=<%= bookDetails[i].book_title %>>
+                                </td>
+                                <td>
+
+                                    <a href=<%="/posts/" + bookDetails[i].book_id %> target="_blank"><button
+                                            id="<%= bookDetails[i].book_id %>"
+                                            class="viewBookBtn btn btn-primary">View</button></a>
+                                    <button id="update-book-<%= bookDetails[i].book_id %>"
+                                        class=" updateDeleteBtn btn btn-success" data-toggle="modal"
+                                        data-target="#updateBookModal">Edit</button>
+                                    <button id="delete-book-<%= bookDetails[i].book_id %>"
+                                        class=" updateDeleteBtn btn btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <%- include("partials/footer") -%>

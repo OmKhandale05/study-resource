@@ -1,10 +1,11 @@
 <%- include("partials/header") -%>
 
+<div class="container">
     <section>
         <div class="resourceContainer">
             <% for(let i=0; i<books.length;i++){ %>
                 <div class="resource-item">
-                    <a href=<%="/posts/" + books[i].book_route %> target="_blank">
+                    <a href=<%="/posts/" + books[i].book_id %> target="_blank">
                         <img src=<%=books[i].book_image_src %> alt=""><br>
                         <%= books[i].book_title %>
                     </a>
@@ -12,5 +13,6 @@
             <% } %>
         </div>
     </section>
+</div>
 
     <%- include("partials/footer") -%>

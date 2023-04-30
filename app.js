@@ -17,12 +17,12 @@ var mysql = require('mysql');
 
 var client = mysql.createConnection({
     host: "sql12.freemysqlhosting.net",
-    user: "sql12561563",
-    password: "MAkRFeRh3z",
-    database: "sql12561563"
+    user: "sql12615014",
+    password: "UfuwzrvJnX",
+    database: "sql12615014"
 });
 
-client.connect(function (err) {
+client.connect(async (err) => {
     if (err) throw err;
     console.log("Connected!");
 });
@@ -59,10 +59,9 @@ app.get("/", function (req, res, next) {
                 Add Book Route
   -------------------------------------------*/
 //   This route renders the admin panel for adding new books
-app.get("/add", function (req, res) {
-    sess = req.session;
-    if (sess.isLoggedin) {
-        res.render("add");
+app.get("/admin", function (req, res) {
+    if (req.session.isLoggedin) {
+        res.redirect("/adminView");
     } else {
         res.render('admin');
     }
@@ -73,17 +72,96 @@ app.post("/admin", function (req, res) {
     sess = req.session;
     let username = req.body.username;
     let adminpass = req.body.adminPassword;
-    let query = `Select * from AdminInfo where username = '${username}' and login_password= '${adminpass}'`;
+    let query = `Select * from AdminInfo where admin_username = '${username}' and admin_password= '${adminpass}'`;
     client.query(query, (err, results) => {
-        if (results.length == 1) {
-            req.session.isLoggedin = results[0].admin_name;
-            req.session.adminId = results[0].admin_id;
-            myvar = req.session.adminId;
-            res.render("add");
-        } else {
-            res.render('admin');
+        if (err) console.log(err);
+        else {
+            console.log(results);
+            console.log('hi');
+            if (results.length == 1) {
+                req.session.isLoggedin = true;
+                req.session.adminFullName = results[0].admin_name;
+                req.session.adminId = results[0].admin_id;
+                myvar = req.session.adminId;
+                res.send({ statusCode: 0 });
+            } else {
+                // res.render('admin');
+                res.send({ statusCode: 1 });
+
+            }
         }
     });
+});
+
+
+/*-------------------------------------------
+                Admin View Route
+  -------------------------------------------*/
+
+app.get('/adminView', (req, res) => {
+    if (!(req.session.isLoggedin)) res.redirect('/admin');
+    else {
+        let query = "Select * from BookData order by book_id";
+        client.query(query, function (err, results) {
+            if (err) console.log(err);
+            else {
+                // console.log(results);
+                let bookDetails = results;
+                res.render('adminView', { bookDetails: bookDetails })
+            }
+        })
+    }
+});
+
+
+app.delete('/adminView', (req, res) => {
+    if (!(req.session.isLoggedin)) res.redirect('/admin');
+    else {
+        bookId = req.body.bookId;
+        let query = `Delete from BookReferences where book_id = ${bookId}`
+        try {
+            client.query(query, (err, result) => {
+                if (err) {
+                    throw err;
+                } else if (result) {
+                    client.query(`DELETE FROM BookData where book_id = ${bookId}`, (err, result) => {
+                        if (err) throw err;
+                        else res.send({ statusCode: 0 })
+                    })
+                }
+            })
+        } catch (err) {
+            console.log(err);
+            res.send({ statusCode: 1 });
+        }
+    }
+});
+
+
+app.put('/adminView', (req, res) => {
+    if (!(req.session.isLoggedin)) res.redirect('/admin');
+    else {
+        let bookId = req.body.bookId;
+        let bookTitle = req.body.title;
+        let link = req.body.link;
+        console.log(bookTitle, link, bookId);
+        let query = `Update BookData set book_title= "${bookTitle}", book_folderlink = "${link}" where book_id = ${bookId}`
+        console.log(query);
+        try {
+            client.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    throw err;
+                } else if (result) {
+                    console.log(result);
+                    res.send({ statusCode: 0 })
+                }
+            })
+        } catch (err) {
+            console.log(err);
+            res.send({ statusCode: 1 });
+        }
+    }
 });
 
 
@@ -158,17 +236,20 @@ app.post("/upload", function (req, res) {
                                 }
                                 client.query(insertQuery, (err, result) => {
                                     if (err) console.log(err);
+                                    // else callback();
                                 });
                             }
                             callback();
                         });
-                    }
+                    } else callback();
                 }
             ],
                 function (err, result) {
                     if (err) { res.render("error"); }
                     // redirect admin to the home after inserting and display new updated book
-                    if (result) res.redirect("/");
+                    else if (result) {
+                        res.redirect("/adminView");
+                    }
                 });
 
             // removing the file from our temporary uploads folder
@@ -185,8 +266,8 @@ app.post("/upload", function (req, res) {
 app.get("/posts/:postId", function (req, res) {
     // perform linear search for the route 
     // if found just render that page only
-    let bookTitle = loadsh.lowerCase(req.params.postId);
-    let sqlQuery = `Select BookData.book_id,BookData.book_title,BookData.book_route,BookData.book_image_src,BookData.book_folderlink,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id and BookData.book_route='${bookTitle}'`;
+    let bookId = loadsh.lowerCase(req.params.postId);
+    let sqlQuery = `Select BookData.book_id,BookData.book_title,BookData.book_route,BookData.book_image_src,BookData.book_folderlink,AdminInfo.admin_name from BookData,AdminInfo where BookData.admin_id=AdminInfo.admin_id and BookData.book_id='${bookId}'`;
 
     client.query(sqlQuery, (err, results) => {
         client.query(`Select * from BookReferences where book_id = ${results[0].book_id}`, (err, refResult) => {

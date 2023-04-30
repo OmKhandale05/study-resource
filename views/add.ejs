@@ -1,36 +1,24 @@
 <%- include("partials/header") -%>
     <div class="container">
-        <h1>Add Book</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="">Title</label>
-                <input type="text" class="form-control" name="bookTitle" id="bookTitle" aria-describedby="helpId" required placeholder="Enter Book Title">
-            </div>
-            <div class="form-group">
-                <label for="">Link</label>
-                <input type="text" class="form-control" name="bookLink" id="Link" aria-describedby="helpId" required placeholder="Enter Drive Folder Link">
-            </div>
-            <div class="form-group">
-                <label for="">Route</label>
-                <input type="text" class="form-control" name="bookRoute" id="route" aria-describedby="helpId" required placeholder="Enter book route(unique and without any spaces)">
-            </div>
-            <div class="form-group">
-                <label for="">Thumbnail</label>
-                <input type="file" class="form-control" name="thumbnail" id="thumbnail" aria-describedby="helpId" required placeholder="Select Image Thumbnail">
-            </div>
-            <div class="form-group">
-              <label for="">References</label>
-              <textarea class="form-control" name="bookReferences" id="bookReferences" rows="7" placeholder="Typing Format:
-Title <space> Link,
-Title <space> Link etc..
-Note: comma(,) is necessary for each new item at the end
-Ex:
-Abdul Bari https://www.youtube.com/playlist?list=PLxCzCOWd7aiFM9Lj5G9G_76adtyb4ef7i,
-Gate Smashers https://www.youtube.com/playlist?list=PLxCzCOWd7aiFM9Lj5G9G_76adtyb4ef7i
+        <!-- Button to trigger modal -->
 
-"></textarea>
-            </div>
-            <button id="submit" type="submit" class="btn btn-lg btn-primary">Publish</button>
-        </form>
+  
+  
+  
     </div>
-    <%- include("partials/footer") -%> 
+    <script>
+        $(document).ready(function () {
+            function addLoadingSpinner() {
+                $('#loading-overlay').addClass('loading-overlay');
+                $('#spinner').addClass('spinner');
+            }
+
+            function removeLoadingSpinner() {
+                $('#loading-overlay').removeClass('loading-overlay');
+                $('#spinner').removeClass('spinner');
+            }
+        })
+
+
+    </script>
+    <%- include("partials/footer") -%>
